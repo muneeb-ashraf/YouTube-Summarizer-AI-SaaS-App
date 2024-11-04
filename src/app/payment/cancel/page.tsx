@@ -4,29 +4,41 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import React from "react";
 
+// Define searchParams as a Promise type
+type SearchParams = Promise<{ txnId: string | undefined }>;
+
 export default async function CancelTxn({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: SearchParams;
 }) {
+  const params = await searchParams;
+  const txnId = params["txnId"];
+
+  if (!txnId) return notFound(); // Handle case if txnId is undefined
+
   const transaction = await prisma.transactions.findUnique({
     where: {
       status: 2,
-      id: searchParams["txnId"],
+      id: txnId,
     },
   });
+
   console.log("The transaction is", transaction);
+
   if (!transaction) {
     return notFound();
   }
+
   await prisma.transactions.update({
     data: {
       status: 0,
     },
     where: {
-      id: searchParams["txnId"],
+      id: txnId,
     },
   });
+
   clearCache("transactions");
 
   return (
