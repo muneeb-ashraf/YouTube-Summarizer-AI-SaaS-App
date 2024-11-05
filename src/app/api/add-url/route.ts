@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   if (!token) {
     return NextResponse.json({ message: "UnAuthorized" }, { status: 401 });
   }
-  try {
+  try { 
     const body = await req.json();
     const validator = vine.compile(summarySchema);
     const payload = await validator.validate(body);
