@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         { message: "You don't have sufficient coins for summary. Please add your coins." },
         { status: 400 }
       );
-    }
+    } 
 
     let transcript = '';
     let metadata: Metadata = { title: '', duration: '', author: '', views: '' };
