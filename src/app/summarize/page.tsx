@@ -27,5 +27,5 @@ export default async function Summarize({
       <DashNav user={session?.user!} userCoins={userCoins} />
       <SummaryBase summary={summary} />
     </div>
-  );
+  ); 
 }
